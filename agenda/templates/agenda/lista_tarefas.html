@@ -1,0 +1,8 @@
+
+{% for tarefa in tarefas %}
+    
+    <a href="{% url "agenda:detalhe" tarefa.pk %}">
+        {{tarefa.nome}}
+        
+    </a>
+{% endfor %}
