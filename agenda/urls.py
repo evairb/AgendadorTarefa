@@ -9,6 +9,7 @@ urlpatterns = [
     
     path('', views.ListaTarefas.as_view(), name='tarefa'),
     path('detalhe/<pk>', views.DetalhesTarefa.as_view(), name='detalhe'),
+    path('cadastrar/', views.Criar.as_view(), name='cadastrar'),
     
     
 ]

@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ValidationError
+import re
 
 # Create your models here.
 class Estoque(models.Model):
     nome_item = models.CharField(max_length=55)
     quantidade = models.PositiveIntegerField()
-
-
     def __str__(self):
         return self.nome_item
 
@@ -48,3 +48,41 @@ class Tarefa(models.Model):
         related_name='updated_by'
     )
     
+
+
+class Perfil(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    data_nascimento = models.DateField()
+    funcao = models.CharField(max_length=50)
+    nivel_acesso = models.CharField(
+    default='V',
+    max_length=1,
+    choices = (
+        ('L', 'Auxiliar de limpeza'),
+        ('P','Professora',),
+        ('D','Diretor',),        
+        ('S','Supervisor',),        
+    )
+)
+    
+    def __str__(self):
+        if self.usuario.first_name and self.usuario.last_name:
+            return f'{self.usuario.first_name} {self.usuario.last_name}'
+        return f'{self.usuario}' 
+    
+
+    def clean(self):
+        error_messages = {}
+        # if not valida_cpf(self.cpf):
+        #     error_messages['cpf'] = 'Digite um CPF valido'
+
+        # if re.search(r'[^0-9]',self.cep) or len(self.cep) < 8:
+        #     error_messages['cep'] = 'Digite um cep valido'
+
+        if error_messages:
+            raise ValidationError(error_messages)
+
+
+    class Meta:
+        verbose_name = 'Perfil'
+        verbose_name_plural = 'Perfis'

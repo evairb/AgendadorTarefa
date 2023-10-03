@@ -10,3 +10,4 @@ class TarefaAdmin(admin.ModelAdmin):
     list_per_page = 10
     ordering = '-id',
    
+admin.site.register(models.Perfil)
