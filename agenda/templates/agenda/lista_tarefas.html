@@ -1,8 +1,58 @@
+{% extends "base.html" %}
 
-{% for tarefa in tarefas %}
-    
-    <a href="{% url "agenda:detalhe" tarefa.pk %}">
-        {{tarefa.nome}}
+
+
+{% block conteudo %}
         
-    </a>
-{% endfor %}
+            
+            
+
+
+
+
+<main role="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-secondary rounded shadow-sm">
+      <div class="lh-100">
+        <h6 class="mb-0 text-white lh-100">Escola</h6>
+        <small>Tarefas</small>
+      </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+      <h6 class="border-bottom border-gray pb-2 mb-0">Atualizações recentes</h6>
+
+      {% for tarefa in tarefas %}
+      
+      <a href="{% url "agenda:detalhe" tarefa.pk %}">
+       <h5 class='text-secondary'> {{tarefa.titulo}} </h5>   
+        </a>
+      <div class="media text-muted pt-2">
+        {% if tarefa.status == 'P' %}
+          <img alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="/static/img/iconred.png" data-holder-rendered="true">
+        {% elif tarefa.status == 'A' %}
+          <img alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="/static/img/iconyellow.png" data-holder-rendered="true">
+        {% else %}
+          <img alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="/static/img/icongreen.png" data-holder-rendered="true">
+        {% endif %}
+
+        
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+          {% if tarefa.realizado_por %}
+            <strong class="d-block text-gray-dark">@{{tarefa.realizado_por.first_name}}</strong>
+          {% else %}
+            <strong class="d-block text-gray-dark">@{{tarefa.criado_por.first_name}}</strong>
+          {% endif %}
+          {{tarefa.local}} - {{tarefa.descricao}} <br>
+          {{tarefa.prioridade}}
+        </p>
+      </div>
+      {% endfor %}
+      
+      
+      <small class="d-block text-right mt-3">
+        <a href="#">Todas atualizações</a>
+      </small>
+    </div>
+
+  </main>
+  {% endblock %}

@@ -88,3 +88,10 @@ class UserForm(forms.ModelForm):
 
         if validation_error_msgs:
             raise(forms.ValidationError(validation_error_msgs))
+        
+
+class TarefasForms(forms.ModelForm):
+    class Meta:
+        model = models.Tarefa
+        fields = '__all__'
+        exclude = ('status', 'criado_por', 'realizado_por')

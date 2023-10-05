@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+
+
+<div class="col-lg bg-secondary m-3 p-3">
+    <h2 class="d-flex justify-content-center text-light">Criar Tarefa</h1>
+
+    <form method='POST' action="">
+        {% csrf_token %}
+        <div class='text-light'>
+            {{ tarefaform | crispy }}
+        
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type='submit' class="btn btn-light btn-block btn-lg">
+                    Enviar
+                </button>
+            </div>
+        </div>
+        
+    </form>
+</div>
+
+
+{% endblock %}

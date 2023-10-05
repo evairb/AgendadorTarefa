@@ -149,6 +149,8 @@ MESSAGE_TAGS = {
 
 }
 
+LOGIN_REDIRECT_URL = ''
+LOGIN_URL = '/login/'
 
 # Sessao em dias: 60s *60m * 24h * 1d
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7

@@ -12,7 +12,7 @@ class Estoque(models.Model):
 
 
 class Tarefa(models.Model):
-    nome = models.CharField(max_length=120)
+    titulo = models.CharField(max_length=120)
     status = models.CharField(
         default='P',
         max_length=1,
@@ -22,16 +22,18 @@ class Tarefa(models.Model):
             ('P','Pendente',),        
         )
     )
+    local = models.CharField(max_length=50)
+    
     prioridade = models.CharField(
         default='V',
-        max_length=1,
+        max_length=5,
         choices = (
-            ('A', 'Alta'),
-            ('M','Media',),
-            ('B','Baixa',),        
+            ('Alta', 'Alta'),
+            ('Media','Media',),
+            ('Baixa','Baixa',),        
         )
     )
-    
+    descricao = models.TextField(null=False, blank=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_alteracao = models.DateTimeField(auto_now=True)
     criado_por = models.ForeignKey(
