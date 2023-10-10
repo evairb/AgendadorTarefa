@@ -8,20 +8,48 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
+
 import copy
 
 
-
+@method_decorator(login_required, name='dispatch')
 class ListaTarefas(ListView):
+    
     model = models.Tarefa
     template_name = 'agenda/lista_tarefas.html'
     context_object_name = 'tarefas'
 
+
+@method_decorator(login_required, name='dispatch')
 class DetalhesTarefa(DetailView):
     model = models.Tarefa
-    template_name = 'agenda/detalhe.html'
-    context_object_name = 'tarefa'
+    template_name = 'agenda/criar_tarefa.html'
     slug_url_kwarg = 'pk'
+
+    def setup(self, *args, **kwargs):
+        super().setup(*args, **kwargs)
+        tarefa = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        
+        self.contexto = {
+                'tarefaform': forms.TarefasForms(data= self.request.POST or None, instance=tarefa),
+            }
+        self.tarefaform = self.contexto['tarefaform']
+
+        self.renderizar = render(self.request, self.template_name, self.contexto)
+    
+    def get(self, *args, **kwargs):
+        return self.renderizar
+    
+    def post(self, *args, **kwargs):
+        if not self.tarefaform.is_valid():
+            return self.renderizar
+        usuario = self.request.user
+        tarefa = self.tarefaform.save(commit=False)
+        tarefa.atualizado_por = usuario
+        tarefa.save()
+        return redirect('agenda:tarefa')
+    
+
 
 
 class BasePerfil(View):
@@ -140,9 +168,9 @@ class Login(View):
         
 
 class Logout(View):
-    def post(self, *args, **kwargs):        
+    def get(self, *args, **kwargs):        
         logout(args[0])
-        return redirect('usuario:login')
+        return redirect('agenda:login')
     
 
 class CriarTarefa(View):
@@ -154,9 +182,7 @@ class CriarTarefa(View):
         self.contexto = {
                 'tarefaform': forms.TarefasForms(data= self.request.POST or None),
             }
-        
         self.tarefaform = self.contexto['tarefaform']
-        
 
         self.renderizar = render(self.request, self.template_name, self.contexto)
 
@@ -164,47 +190,17 @@ class CriarTarefa(View):
     def get(self, *args, **kwargs):
         return self.renderizar
     
+    
     def post(self, *args, **kwargs):
         if not self.tarefaform.is_valid():
             return self.renderizar
-        
-        username = self.userform.cleaned_data.get('username')
-        print(username)
-        # password = self.userform.cleaned_data.get('password')
-        
-        
-        # if self.request.user.is_authenticated:
-        #     usuario = get_object_or_404(
-        #         User, username=self.request.user.username)
-            
-        #     usuario.username = username
-            
-        #     if password:
-        #         usuario.set_password(password)
-
-        #     usuario.email = email
-        #     usuario.first_name = first_name
-        #     usuario.last_name = last_name
-        #     usuario.save()
-
-            
-         
-        # else:
-        #     usuario = self.userform.save(commit=False)
-        #     usuario.set_password(password)
-        #     usuario.save()
-
-
-        #     perfil = self.perfilform.save(commit=False)
-        #     perfil.usuario = usuario
-        #     perfil.save()
+        usuario = self.request.user
+        tarefa = self.tarefaform.save(commit=False)
+        tarefa.criado_por = usuario
+        tarefa.save()
+        return redirect('agenda:tarefa')
     
 
-        # if password:
-        #     autentica = authenticate(
-        #         self.request, username=usuario, password=password
-        #     )
+
+
     
-        #     if autentica:
-        #         login(self.request, user=usuario)
-        return self.renderizar

@@ -2,12 +2,12 @@
 
 {% block conteudo %}
 <div class="text-dark d-flex justify-content-center align-middle body">
-  <section class="m-auto container-card">
+  <section class="m-auto container-card ">
     <footer class=" bg-primary title-card">
       <div class="container">
         <div class="row">
           <div class="col">
-            <h1 class="p-3 d-flex justify-content-center">Escola<h1>
+            <h1 class="p-3 d-flex justify-content-center">Bem-Vindo<h1>
           </div>
         </div>
       </div>
@@ -43,9 +43,14 @@
     </div>
 </div>
 <style>
+
+
   .body {
-    min-height: 95vh;
-    /* background-image: url('/static/img/sp.jpeg'); */
+    min-height: 70vh;
+    background-image: url('/static/img/escola.jpg');
+    background-size: cover; 
+    
+    
   }
 
   h1 {
@@ -55,8 +60,8 @@
 
   .container-card {
     width: 50%;
-    background-color: rgb(232, 246, 248, 0.4);
-    box-shadow: -0.2em 0.6rem 1.5em rgb(8, 57, 64, 0.3);
+    background-color: rgb(232, 246, 248, 0.9);
+    box-shadow: -0.1rem 0.6rem 1.5em rgb(8, 57, 64, 0.3);
   }
 
   .title-card {
@@ -66,6 +71,7 @@
   .title-card,
   .container-card {
     border-radius: 15px 15px 15px 15px;
+    
   }
 
   .desc-subtitle {
@@ -113,11 +119,13 @@
   .container-img {
     display: flex;
     justify-content: center;
+    
   }
 
   .img-fluid {
     width: 80%;
   }
+
   
 </style>
 {% endblock %}

@@ -15,11 +15,11 @@ class Tarefa(models.Model):
     titulo = models.CharField(max_length=120)
     status = models.CharField(
         default='P',
-        max_length=1,
+        max_length=10,
         choices = (
-            ('C', 'Concluida'),
-            ('A','Andamento',),
-            ('P','Pendente',),        
+            ('Pendente','Pendente',),
+            ('Concluida', 'Concluida'),
+            ('Andamento','Andamento',)       
         )
     )
     local = models.CharField(max_length=50)

@@ -3,11 +3,6 @@
 
 
 {% block conteudo %}
-        
-            
-            
-
-
 
 
 <main role="main" class="container">
@@ -27,9 +22,9 @@
        <h5 class='text-secondary'> {{tarefa.titulo}} </h5>   
         </a>
       <div class="media text-muted pt-2">
-        {% if tarefa.status == 'P' %}
+        {% if tarefa.status == 'Pendente' %}
           <img alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="/static/img/iconred.png" data-holder-rendered="true">
-        {% elif tarefa.status == 'A' %}
+        {% elif tarefa.status == 'Andamento' %}
           <img alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="/static/img/iconyellow.png" data-holder-rendered="true">
         {% else %}
           <img alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="/static/img/icongreen.png" data-holder-rendered="true">
@@ -43,16 +38,32 @@
             <strong class="d-block text-gray-dark">@{{tarefa.criado_por.first_name}}</strong>
           {% endif %}
           {{tarefa.local}} - {{tarefa.descricao}} <br>
-          {{tarefa.prioridade}}
+          {{tarefa.prioridade}} - {{tarefa.status}}
         </p>
       </div>
       {% endfor %}
       
-      
-      <small class="d-block text-right mt-3">
-        <a href="#">Todas atualizações</a>
-      </small>
+
+    
+  
+      <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Conteúdo à esquerda -->
+            </div>
+            <div class="col-md-6 text-right">
+                <!-- Botão à direita -->
+                <button class="btn btn-primary btn-primary btn-lg mt-3 ">
+                  <a class="text-white " href="{% url "agenda:criarTarefa" %}">Criar Tarefa</a>   
+                </button>
+            </div>
+        </div>
     </div>
+      
+      
+      
+
+
 
   </main>
   {% endblock %}

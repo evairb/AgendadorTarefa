@@ -94,4 +94,4 @@ class TarefasForms(forms.ModelForm):
     class Meta:
         model = models.Tarefa
         fields = '__all__'
-        exclude = ('status', 'criado_por', 'realizado_por')
+        exclude = ('criado_por', 'realizado_por')
